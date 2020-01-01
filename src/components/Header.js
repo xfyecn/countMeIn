@@ -15,13 +15,35 @@ export default class Header extends Component {
     super(props);
 
     this.state = { 
-      isShowingLoginModal: false 
+      isShowingLoginModal: false,
+      password:'',
+      confirmPass:'',
     };
+  }
+
+  addNewUsers(){
+    console.log("AAAAAAAA", this.state)
+    const { confirmPass, password, email} = this.state;
+
+    if (confirmPass === '' || password == '' || email === ''){
+      return console.log("Uh oh, looks like you missed a required field");
+    }
+
+    if (confirmPass !== password){
+      return console.log("Uh oh, looks like your passwords don't match. ");
+    }
+
+    //add to firebase
+
+
   }
 
   render() {
 
-    const { isShowingLoginModal } = this.state;
+    console.log("this is your stateeeee", this.state)
+    const { isShowingLoginModal, password, confirmPass } = this.state;
+
+
 
     return (
       <div>
@@ -36,35 +58,60 @@ export default class Header extends Component {
               <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Sign Up</Button>
             </Toolbar>
           </AppBar>
+          
+          {/* Sign Up Modal */}
           <Dialog
             open={isShowingLoginModal}
             onClose={console.log("FOOO")}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-          <DialogTitle id="alert-dialog-title">{"Count Me In!"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{"Join Us!"}</DialogTitle>
           <TextField
             autoFocus
             margin="dense"
+            required
             id="name"
             label="Email Address"
             type="email"
             fullWidth
+            onChange={val => this.setState({ email: val.target.value })}
           />
           <TextField
             autoFocus
             margin="dense"
+            required
             id="name"
             label="Password"
             type="password"
             fullWidth
+            onChange={val => this.setState({ password: val.target.value })}
+          />
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="name"
+            label="Confirm Password"
+            type="password"
+            fullWidth
+            onChange={val => this.setState({ confirmPass: val.target.value })}
           />
           <DialogActions>
             <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="primary">
               Cancel
             </Button>
-            <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="primary" autoFocus>
-              Log In!
+            <Button 
+              onClick={() => 
+                this.setState({ 
+                  isShowingLoginModal: !isShowingLoginModal 
+                }),
+                this.addNewUsers.bind(this)} 
+              color="primary" 
+              autoFocus
+              disabled= {confirmPass !== password || password === '' || confirmPass === '' ? true : false}
+            >
+              Sign Me Up!
             </Button>
           </DialogActions>
         </Dialog>
