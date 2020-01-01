@@ -9,6 +9,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
+import * as firebase from 'firebase'
+
+
 export default class Header extends Component {
 
   constructor(props) {
@@ -33,8 +36,23 @@ export default class Header extends Component {
       return console.log("Uh oh, looks like your passwords don't match. ");
     }
 
-    //add to firebase
+    console.log("this is firebase", firebase)
 
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+
+      console.log("this is the error message", error)
+
+      if (error){
+
+      } else {
+        console.log("looks like you fucking did it buddy")
+      }
+
+
+    });
 
   }
 
