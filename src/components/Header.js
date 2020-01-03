@@ -9,10 +9,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
+import { signIn } from '../actions/auth';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
+
 import * as firebase from 'firebase'
 
-
-export default class Header extends Component {
+class Header extends Component {
 
   constructor(props) {
     super(props);
@@ -24,8 +27,7 @@ export default class Header extends Component {
     };
   }
 
-  addNewUsers(){
-    console.log("AAAAAAAA", this.state)
+  addNewUser(){
     const { confirmPass, password, email} = this.state;
 
     if (confirmPass === '' || password == '' || email === ''){
@@ -36,32 +38,26 @@ export default class Header extends Component {
       return console.log("Uh oh, looks like your passwords don't match. ");
     }
 
-    console.log("this is firebase", firebase)
-
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .catch(function(error) {
       // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-
-      console.log("this is the error message", error)
-
-      if (error){
-
-      } else {
-        console.log("looks like you fucking did it buddy")
-      }
-
-
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (errorCode == 'auth/weak-password') {
+          alert('The password is too weak.');
+        } else {
+          alert(errorMessage);
+        }
+      console.log(error);
     });
+
+    signIn();
 
   }
 
   render() {
 
-    console.log("this is your stateeeee", this.state)
     const { isShowingLoginModal, password, confirmPass } = this.state;
-
-
 
     return (
       <div>
@@ -80,7 +76,6 @@ export default class Header extends Component {
           {/* Sign Up Modal */}
           <Dialog
             open={isShowingLoginModal}
-            onClose={console.log("FOOO")}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
@@ -124,7 +119,7 @@ export default class Header extends Component {
                 this.setState({ 
                   isShowingLoginModal: !isShowingLoginModal 
                 }),
-                this.addNewUsers.bind(this)} 
+                this.addNewUser.bind(this)} 
               color="primary" 
               autoFocus
               disabled= {confirmPass !== password || password === '' || confirmPass === '' ? true : false}
@@ -137,3 +132,13 @@ export default class Header extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  auth: state,
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  signIn
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
