@@ -1,14 +1,14 @@
-import { SIGN_IN } from '../actions/auth';
+import { UPDATE_AUTH } from '../actions/auth';
 
 const initialState = {
     signedInUser: null,
 }
 
 export default function(state = initialState, action){
-    const { type } = action;
+    const { type, data } = action;
 
     switch(type){
-        case SIGN_IN:
+        case UPDATE_AUTH:
             return {
                 ...state,
             }

@@ -9,7 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
-import { signIn } from '../actions/auth';
+import { updateAuth } from '../actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 
@@ -51,13 +51,23 @@ class Header extends Component {
       console.log(error);
     });
 
-    signIn();
-
   }
 
   render() {
 
     const { isShowingLoginModal, password, confirmPass } = this.state;
+    let authorizedUser = false;
+
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        updateAuth(user);
+        authorizedUser = user;
+
+      } else {
+        // No user is signed in.
+        console.log("NO USER")
+      }
+    });
 
     return (
       <div>
@@ -138,7 +148,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  signIn
+  updateAuth
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

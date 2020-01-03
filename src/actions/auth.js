@@ -1,9 +1,10 @@
-export const SIGN_IN = "SIGN_IN";
+export const UPDATE_AUTH = "UPDATE_AUTH";
 
 //this is an action creator
-export function signIn(){
-    console.log("YOU HIT THE SIGNIN FUNCTION")
+export function updateAuth(user){
+
     return {
-        type: 'SIGN_IN'
+        type: 'UPDATE_AUTH',
+        data: user,
     }
 }
