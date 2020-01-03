@@ -2,6 +2,19 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Header from './components/Header'
+import * as firebase from 'firebase/app'
+
+var firebaseConfig = {
+apiKey: process.env.REACT_APP_API_KEY,
+authDomain: "countmein-f67fe.firebaseapp.com",
+databaseURL: "https://countmein-f67fe.firebaseio.com",
+projectId: "countmein-f67fe",
+storageBucket: "countmein-f67fe.appspot.com",
+messagingSenderId: "730541057722",
+appId: "1:730541057722:web:b2b7966ba0a94dd1c80483"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
 function App() {
   return (
