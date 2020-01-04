@@ -7,8 +7,6 @@ const initialState = {
 export default function(state = initialState, action){
     const { type, data } = action;
 
-    console.log("DDDDDDD", action)
-
     switch(type){
         case UPDATE_AUTH:
             return {

@@ -27,6 +27,10 @@ class Header extends Component {
     };
   }
 
+  componentDidMount(){
+      this.props.updateAuth();
+  }  
+
   addNewUser(){
     const { confirmPass, password, email} = this.state;
 
@@ -56,18 +60,6 @@ class Header extends Component {
   render() {
 
     const { isShowingLoginModal, password, confirmPass } = this.state;
-    let authorizedUser = false;
-
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        updateAuth(user);
-        authorizedUser = user;
-
-      } else {
-        // No user is signed in.
-        console.log("NO USER")
-      }
-    });
 
     return (
       <div>
