@@ -147,7 +147,7 @@ const mapStateToProps = (state) => ({
   auth: state,
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   updateAuth
 }, dispatch);
 
