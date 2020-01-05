@@ -1,7 +1,7 @@
 import { UPDATE_AUTH } from '../actions/auth';
 
 const initialState = {
-    signedInUser: null,
+    user: null,
 }
 
 export default function(state = initialState, action){
@@ -11,6 +11,8 @@ export default function(state = initialState, action){
         case UPDATE_AUTH:
             return {
                 ...state,
+                user: data ? data.email : null,
+                uid: data ? data.uid : null
             }
         default:
             return state;

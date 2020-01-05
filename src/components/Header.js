@@ -60,6 +60,9 @@ class Header extends Component {
   render() {
 
     const { isShowingLoginModal, password, confirmPass } = this.state;
+    const { auth } = this.props;
+
+    console.log("this is our props", auth)
 
     return (
       <div>
@@ -70,7 +73,11 @@ class Header extends Component {
             <Typography variant="h6">
               Count Me In!
               </Typography>
-              <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Login</Button>
+              {auth.user !== null ? (
+                <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Log Out</Button>
+              ) : (
+                <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Login</Button>
+              )}
               <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Sign Up</Button>
             </Toolbar>
           </AppBar>
@@ -136,7 +143,7 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  auth: state,
+  auth: state.auth
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
